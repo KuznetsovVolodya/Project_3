@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-
 {% block content %}
+
 <form class="create_form" method="post">
 <div class="form-group">
     <h3><label for="about">Да начнётся генерация!</label></h3>
+    <label for="about">Пиши строчными буквами и без знаков препинания!</label>
     <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
 </div>
 <button type="submit" class="btn btn-primary">Сгенерировать</button>
