@@ -12,27 +12,27 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
           crossorigin="anonymous">
     <title>Река слов</title>
-    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css')}}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg sticky-top navbar-light">
         <div class="container-fluid">
             <div class="navbar-header">
-            <a class="navbar-brand" style="color: white" href="#">
-                            <img src="static/img/tolstoy.svg" alt="" width="100" height="100" class="d-inline-block align-text-top">
-            Толстой напился
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"  aria-expanded="false" aria-label="Переключатель навигации">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+                <a class="navbar-brand" style="color: white" href="#">
+                    <img src="{{url_for('static', filename='img/tolstoy.svg')}}" alt="" width="100" height="100" class="d-inline-block align-text-top">
+                Толстой напился
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"  aria-expanded="false" aria-label="Переключатель навигации">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </div>
-    <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="nav nav-pills nav-justified">
                     {% block link %}{% endblock %}
                 </ul>
             </div>
-            <button type="button" class="btn btn-default navbar-btn">Войти</button>
-            </div>
+            {% block enter %}{% endblock %}
+        </div>
     </nav>
 
 <h4><font> Да польются слова рекой!</font></h4>

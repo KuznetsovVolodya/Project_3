@@ -1,10 +1,41 @@
-from flask import Flask, url_for, render_template, request
+from flask import Flask, render_template, request, redirect
 from random import choice
+
 from text_creator import a
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
+from data.users import User
+from data import db_session
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
+class RegisterForm(FlaskForm):
+    username = StringField('Ник', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Зарегистрироваться')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def reqister():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.name == form.username.data).first():
+            return render_template('form_enter.html', title='Регистрация',
+                                   form=form,
+                                   message="Такой пользователь уже есть")
+        user = User(
+            name=form.username.data,
+        )
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect(f'/index/{form.username.data}')
+    return render_template('form_enter.html', title='Регистрация', form=form)
 
 
 def text_creator(o_t):
@@ -21,7 +52,13 @@ def text_creator(o_t):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('main.html')
+    return render_template('main.html', enter=False)
+
+
+@app.route('/')
+@app.route('/index/<username>')
+def index_entered(username):
+    return render_template('main.html', enter=username)
 
 
 @app.route('/gen', methods=['POST', 'GET'])
@@ -29,8 +66,28 @@ def generate():
     gen_text = ""
     if request.method == 'POST':
         gen_text = request.form['about']
-    return render_template('gen.html', text=text_creator(gen_text))
+    return render_template('gen.html', enter=False, text=text_creator(gen_text))
+
+
+@app.route('/gen/<username>', methods=['POST', 'GET'])
+def generate_entered(username):
+    gen_text = ""
+    if request.method == 'POST':
+        gen_text = request.form['about']
+    return render_template('gen.html', enter=username, text=text_creator(gen_text))
 
 
 if __name__ == '__main__':
+    db_session.global_init("db/new_generation.db")
+    user = User()
+    db_sess = db_session.create_session()
+    user.name = "<Борис>"
+    user.set_password("GLAGOL")
+    db_sess.add(user)
+    user2 = User()
+    user2.name = "Андрей"
+    user.set_password("Privet")
+    db_sess.add(user2)
+    db_sess.commit()
+
     app.run(port=8080, host='127.0.0.1')
