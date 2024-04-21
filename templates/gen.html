@@ -1,4 +1,15 @@
 {% extends "base.html" %}
+{% block link %}
+    <li class="nav-item">
+        <a class="nav-link" style="color: white" href="/index">Описание </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" style="color: white" href="/gen">Генератор</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color: white" href="#">Чат</a>
+    </li>
+{% endblock %}
 {% block content %}
 
 <form class="create_form" method="post">
