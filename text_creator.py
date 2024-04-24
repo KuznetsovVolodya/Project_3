@@ -1,4 +1,4 @@
-f = open('orig_text.txt', mode='r')
+f = open('orig_text.txt', mode='r', encoding='UTF-8')
 data = f.read().split()
 for i in range(len(data)):
     if not (data[i][-1].isalpha() or data[i][-1].isdigit()):

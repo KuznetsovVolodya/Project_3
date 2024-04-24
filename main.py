@@ -1,5 +1,6 @@
+import sqlite3
 from flask import Flask, render_template, request, redirect
-from random import choice
+from random import choice, shuffle
 
 from text_creator import a
 from flask_wtf import FlaskForm
@@ -25,6 +26,35 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
+
+@app.route('/scrooll_page')
+def image_mars():
+    conn = sqlite3.connect('db/generation1.db')
+    cursor = conn.cursor()
+    cursor.execute("""
+            SELECT generation_text, author, comment, time FROM all_generation;
+            """)
+    conn.commit()
+    generations = cursor.fetchall()
+    shuffle(generations)
+    conn.close()
+
+    return render_template('scroll.html', enter=False)
+
+
+@app.route('/scrooll_page/<username>')
+def image_mars2(username):
+    conn = sqlite3.connect('db/generation1.db')
+    cursor = conn.cursor()
+    cursor.execute("""
+            SELECT generation_text, author, comment, time FROM all_generation;
+            """)
+    conn.commit()
+    generations = cursor.fetchall()
+    shuffle(generations)
+    conn.close()
+
+    return render_template('scroll.html', enter=username)
 
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
