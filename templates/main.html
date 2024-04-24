@@ -40,24 +40,3 @@
     <h1>Тогда переходите на страницу с генератором, и погнали!</h1>
     <img src="/static/img/start.jpg" alt="здесь должна была быть картинка, но не нашлась">
 {% endblock %}
-{% block enter %}
-{% if not enter  %}
-                <div class="collapse navbar-collapse" id="navbarLinkEnter">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item active">
-                            <a href="#" class="navbar-link">Войти</a>
-                            <span class="navbar-text">
-
-                              </span>
-                            <a href="/register" class="navbar-link">Зарегистрироваться</a>
-                      </li>
-                    </ul>
-                </div>
-{% else %}
-                <div class="collapse navbar-collapse" id="navbarEnter">
-                    <span class="navbar-text">
-                        Вы вошли как {{ enter }}
-                    </span>
-                </div>
-            {% endif %}
-{% endblock %}

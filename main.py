@@ -19,6 +19,13 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться')
 
 
+class LoginForm(FlaskForm):
+    username = StringField('Ник', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -36,6 +43,20 @@ def reqister():
         db_sess.commit()
         return redirect(f'/index/{form.username.data}')
     return render_template('form_enter.html', title='Регистрация', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.name == form.username.data).first()
+        if user and user.check_password(form.password.data):
+            return redirect(f'/index/{form.username.data}')
+        return render_template('form_enter.html',
+                               message="Неправильный логин или пароль",
+                               form=form)
+    return render_template('form_enter.html', title='Авторизация', form=form)
 
 
 def text_creator(o_t):
