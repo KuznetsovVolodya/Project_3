@@ -1,23 +1,55 @@
 {% extends "base.html" %}
 {% block link %}
+{% if not enter  %}
     <li class="nav-item">
         <a class="nav-link" style="color: white" href="/index">Описание </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link active" style="color: white" href="/gen">Генератор</a>
+        <a class="nav-link  active" style="color: white" href="/gen">Генератор</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" style="color: white" href="#">Чат</a>
     </li>
+{% else %}
+    <li class="nav-item">
+        <a class="nav-link" style="color: white" href="/index/{{ enter }}">Описание </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" style="color: white" href="/gen/{{ enter }}">Генератор</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color: white" href="#">Чат</a>
+    </li>
+{% endif %}
 {% endblock %}
 {% block content %}
+    <form class="create_form" method="post">
+        <div class="form-group">
+            <h3><label for="about">Да начнётся генерация!</label></h3>
+            <label for="about">Пиши строчными буквами и без знаков препинания!</label>
+            <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Сгенерировать</button>
+    </form>
+{% endblock %}
+{% block enter %}
+    {% if not enter  %}
+        <div class="collapse navbar-collapse" id="navbarLinkEnter">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a href="#" class="navbar-link">Войти</a>
+                    <span class="navbar-text">
 
-<form class="create_form" method="post">
-<div class="form-group">
-    <h3><label for="about">Да начнётся генерация!</label></h3>
-    <label for="about">Пиши строчными буквами и без знаков препинания!</label>
-    <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
-</div>
-<button type="submit" class="btn btn-primary">Сгенерировать</button>
-</form>
+                    </span>
+                    <a href="/register" class="navbar-link">Зарегистрироваться</a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="collapse navbar-collapse" id="navbarEnter">
+            <span class="navbar-text">
+                Вы вошли как {{ enter }}
+            </span>
+        </div>
+    {% endif %}
 {% endblock %}

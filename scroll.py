@@ -12,7 +12,7 @@ def mission():
 
 @app.route('/scrooll_page')
 def image_mars():
-    conn = sqlite3.connect('generation.db')
+    conn = sqlite3.connect('db/generation.db')
     cursor = conn.cursor()
     cursor.execute("""
             SELECT generation_text, author, comment, time FROM all_generation;
