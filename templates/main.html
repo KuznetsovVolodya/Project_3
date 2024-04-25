@@ -1,17 +1,27 @@
 {% extends "base.html" %}
 {% block link %}
     <li class="nav-item">
-        <a class="nav-link active" style="color: white" href="/index/{{ enter }}">Описание </a>
+        <a class="nav-link active" style="color: white" href="/index/{{ enter }}">Описание</a>
+    </li>
+    <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" style="color: white" >
+            Генерация
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li class="nav-item">
+                <a class="nav-link" style="color: black" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="color: black" href="/gen/{{ enter }}">Вторая степень опьянения</a>
+            </li>
+          </ul>
     </li>
     <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
+        <a class="nav-link" style="color: white" href="/scrooll_page/{{ enter }}/False">Чат</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/gen/{{ enter }}">Вторая степень опьянения</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/scrooll_page/{{ enter }}">Чат</a>
-    </li>
+{% endblock %}
+{% block exit %}
+    <a href="/index/False" class="btn btn-primary">Выйти</a>
 {% endblock %}
 {% block content %}
     <div class="alert alert-primary" role="alert">

@@ -1,35 +1,57 @@
 {% extends "base.html" %}
 {% block link %}
     <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/index/{{ enter }}">Описание </a>
+        <a class="nav-link" style="color: white" href="/index/{{ enter }}">Описание</a>
     </li>
-    {% if name == "Вторая степень опьянения": %}
-        <li class="nav-item">
-            <a class="nav-link" style="color: white" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" style="color: white" href="/gen/{{ enter }}">Вторая степень опьянения</a>
-        </li>
-    {% else %}
-        <li class="nav-item">
-            <a class="nav-link active" style="color: white" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" style="color: white" href="/gen/{{ enter }}">Вторая степень опьянения</a>
-        </li>
-    {% endif %}
+    <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" style="color: white" >
+            Генерация
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown" >
+             {% if name == "Вторая степень опьянения": %}
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" style="color: black" href="/gen/{{ enter }}">Вторая степень опьянения</a>
+                </li>
+             {% else %}
+                <li class="nav-item">
+                    <a class="nav-link active" style="color: black" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: black" href="/gen/{{ enter }}">Вторая степень опьянения</a>
+                </li>
+             {% endif %}
+              </ul>
+    </li>
     <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/scrooll_page/{{ enter }}">Чат</a>
+        <a class="nav-link" style="color: white" href="/scrooll_page/{{ enter }}/False">Чат</a>
     </li>
+{% endblock %}
+{% block exit %}
+    {% if name == "Вторая степень опьянения": %}
+        <a href="/gen/False" class="btn btn-primary">Выйти</a>
+    {% else %}
+        <a href="/gen_prof/False" class="btn btn-primary">Выйти</a>
+    {% endif %}
 {% endblock %}
 {% block content %}
     <form class="create_form" method="post">
         <div class="form-group">
-            <h3><label for="about">Да начнётся генерация!</label></h3>
-            <h5><label for="about">{{ description }}</label></h5>
+            <h3><label for="about">{{ description }}</label></h3>
             <label for="about">{{ message }}</label>
             <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Сгенерировать</button>
+        <span class="navbar-text">       </span>
+        {% if enter != 'False' %}
+            {% if text != '' %}
+                <a href="/scrooll_page/{{ enter }}/{{ text }}" class="btn btn-secondary">Запостить</a>
+            {% else %}
+                <a href="/scrooll_page/{{ enter }}/False" class="btn btn-secondary">Запостить</a>
+            {% endif %}
+        {% endif %}
+
     </form>
 {% endblock %}

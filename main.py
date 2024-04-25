@@ -44,8 +44,8 @@ class LoginForm(FlaskForm):
 
 
 @app.route('/')
-@app.route('/scrooll_page/<username>')
-def image_mars2(username):
+@app.route('/scrooll_page/<username>/<post>')
+def image_mars2(username, post):
     conn = sqlite3.connect('db/generation1.db')
     cursor = conn.cursor()
     cursor.execute("""
