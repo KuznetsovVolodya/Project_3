@@ -31,7 +31,7 @@
                     {% block link %}{% endblock %}
                 </ul>
             </div>
-            {% if not enter  %}
+            {% if enter == 'False'%}
                 <div class="collapse navbar-collapse" id="navbarLinkEnter">
                     <ul class="navbar-nav mr-auto">
                       <li class="nav-item active">
@@ -43,7 +43,7 @@
                       </li>
                     </ul>
                 </div>
-        {% else %}
+            {% else %}
                 <div class="collapse navbar-collapse" id="navbarEnter">
                     <span class="navbar-text">
                         Вы вошли как {{ enter }}

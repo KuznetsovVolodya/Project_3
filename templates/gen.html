@@ -1,32 +1,33 @@
 {% extends "base.html" %}
 {% block link %}
-{% if not enter  %}
-    <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/index">Описание </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link  active" style="color: white" href="/gen">Генератор</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" style="color: white" href="/scrooll_page">Чат</a>
-    </li>
-{% else %}
     <li class="nav-item">
         <a class="nav-link" style="color: white" href="/index/{{ enter }}">Описание </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link active" style="color: white" href="/gen/{{ enter }}">Генератор</a>
-    </li>
+    {% if name == "Вторая степень опьянения": %}
+        <li class="nav-item">
+            <a class="nav-link" style="color: white" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" style="color: white" href="/gen/{{ enter }}">Вторая степень опьянения</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <a class="nav-link active" style="color: white" href="/gen_prof/{{ enter }}">Первая степень опьянения</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" style="color: white" href="/gen/{{ enter }}">Вторая степень опьянения</a>
+        </li>
+    {% endif %}
     <li class="nav-item">
         <a class="nav-link" style="color: white" href="/scrooll_page/{{ enter }}">Чат</a>
     </li>
-{% endif %}
 {% endblock %}
 {% block content %}
     <form class="create_form" method="post">
         <div class="form-group">
             <h3><label for="about">Да начнётся генерация!</label></h3>
-            <label for="about">Пиши строчными буквами и без знаков препинания!</label>
+            <h5><label for="about">{{ description }}</label></h5>
+            <label for="about">{{ message }}</label>
             <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Сгенерировать</button>
