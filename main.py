@@ -8,9 +8,25 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from data.users import User
 from data import db_session
+from fish_api_connection import gen_prof
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+
+def text_creator(o_t):
+    text = o_t
+    if len(text) >= 1:
+        for i in range(10):
+            if text.split()[-1] in a:
+                text += ' ' + choice(a[text.split()[-1]])
+            else:
+                text += ' ' + choice(list(a.keys()))
+    return text
+
+
+def text_creator_prof(o_t):
+    return o_t + " " + gen_prof()
 
 
 class RegisterForm(FlaskForm):
@@ -76,17 +92,6 @@ def login():
     return render_template('form_enter.html', title='Авторизация', form=form)
 
 
-def text_creator(o_t):
-    text = o_t
-    if len(text) >= 1:
-        for i in range(10):
-            if text.split()[-1] in a:
-                text += ' ' + choice(a[text.split()[-1]])
-            else:
-                text += ' ' + choice(list(a.keys()))
-    return text
-
-
 @app.route('/index/<username>')
 def index_entered(username):
     return render_template('main.html', enter=username)
@@ -108,11 +113,12 @@ def generate_prof_entered(username):
     gen_text = ""
     if request.method == 'POST':
         gen_text = request.form['about']
+        gen_text = text_creator_prof(gen_text)
     return render_template('gen.html', name="Первая степень опьянения", enter=username,
                            description='На первый взгляд текст выглядит логично, но стоит вчитаться, как вы сразу '
                                        'поймёте его абсурдность.',
                            message='!Ничего вводить не нужно, генерация производится сама!',
-                           text=text_creator(gen_text))
+                           text=gen_text)
 
 
 if __name__ == '__main__':
