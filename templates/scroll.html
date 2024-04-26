@@ -36,4 +36,19 @@
     </div>
 </div>
 {% endfor %}
+{% if post != 'False': %}
+    <nav class="navbar navbar-expand-lg fixed-bottom navbar-black bg-light">
+        <div class="container-fluid" id="send">
+            <form class="d-flex">
+                <img src="{{url_for('static', filename='img/new_post.png')}}" alt="" width="100" height="100" id="post_img" class="d-inline-block align-text-top">
+                <label for="post_img" id ="comm">Автор: {{ enter }}</label>
+            </form>
+            <form class="d-flex" method="post">
+                <label for="about" id ="comm2">Комментарий:  </label>
+                <input class="form-control" type="text" id="about" placeholder="Комментарий" name="about">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+    </nav>
+{% endif %}
 {% endblock %}

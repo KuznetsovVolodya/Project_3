@@ -45,19 +45,19 @@ class LoginForm(FlaskForm):
 
 
 @app.route('/')
-@app.route('/scrooll_page/<username>/<post>')
+@app.route('/scrooll_page/<username>/<post>', methods=['GET', 'POST'])
 def image_mars2(username, post):
-    conn = sqlite3.connect('db/generation1.db')
-    cursor = conn.cursor()
-    cursor.execute("""
-            SELECT generation_text, author, comment, time FROM all_generation;
-            """)
-    conn.commit()
-    generations = cursor.fetchall()
-    shuffle(generations)
-    conn.close()
-
-    return render_template('scroll.html', enter=username)
+    db_sess = db_session.create_session()
+    if request.method == 'POST':
+        g = Generation()
+        g.generation_text = post
+        g.comment = request.form['about']
+        g.author = username
+        db_sess.add(g)
+        db_sess.commit()
+        return redirect(f'/scrooll_page/{username}/False')
+    all_generation = db_sess.query(Generation)
+    return render_template("scroll.html", all_generation=all_generation, enter=username, post=post)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -121,32 +121,8 @@ def generate_prof_entered(username):
                            message='!Ничего вводить не нужно, генерация производится сама!',
                            text=gen_text)
 
-@app.route("/scroll")
-def scroll():
-    db_sess = db_session.create_session()
-    all_generation = db_sess.query(Generation)
-    return render_template("scroll.html", all_generation=all_generation)
 
 
 if __name__ == '__main__':
     db_session.global_init("db/new_generation.db")
-    user = User()
-    db_sess = db_session.create_session()
-    user.name = "<Борис>"
-    user.set_password("GLAGOL")
-    db_sess.add(user)
-    user2 = User()
-    user2.name = "Андрей"
-    user.set_password("Privet")
-    db_sess.add(user2)
-    db_sess.commit()
-
-    g = Generation()
-
-    g.generation_text = "волк сеял ягоды"
-    g.comment = 'хаха'
-    g.author = 'Андрей'
-    db_sess.add(g)
-    db_sess.commit()
-
     app.run(port=8080, host='127.0.0.1')
