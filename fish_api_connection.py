@@ -1,5 +1,7 @@
 import requests
 
+# Генерация производится за счёт api сайта РыбаТекст
+# Документация: https://fish-text.ru/api
 address = 'https://fish-text.ru/get'
 api_server = address
 

@@ -15,6 +15,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
+# Генерация текста второй степени опьянения (описана в файле 'text_creator.py')
+# Рандомно выбирается продолжение начатого текста
 def text_creator(o_t):
     text = o_t
     if len(text) >= 1:
@@ -25,30 +27,31 @@ def text_creator(o_t):
                 text += ' ' + choice(list(a.keys()))
     return text
 
-
+# Генерация текста первой степени опьянения (описана в файле 'fish_api_connection.py')
 def text_creator_prof(o_t):
     return o_t + gen_prof() + ". "
 
-
+# Форма регистрации
 class RegisterForm(FlaskForm):
     username = StringField('Ник', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Зарегистрироваться')
 
-
+# Форма входа
 class LoginForm(FlaskForm):
     username = StringField('Ник', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
-
+# Добавление новой генерации в БД
 @app.route('/')
 @app.route('/scrooll_page/<username>/<post>', methods=['GET', 'POST'])
 def image_mars2(username, post):
     db_sess = db_session.create_session()
     if request.method == 'POST':
+        # Класс Generation() описан в generations.py
         g = Generation()
         g.generation_text = post
         g.comment = request.form['about']
@@ -59,7 +62,7 @@ def image_mars2(username, post):
     all_generation = db_sess.query(Generation)
     return render_template("scroll.html", all_generation=all_generation, enter=username, post=post)
 
-
+# Страница регистрации
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -69,6 +72,7 @@ def reqister():
             return render_template('form_enter.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
+        # Класс User() описан в users.py
         user = User(
             name=form.username.data,
         )
@@ -78,7 +82,7 @@ def reqister():
         return redirect(f'/index/{form.username.data}')
     return render_template('form_enter.html', title='Регистрация', form=form)
 
-
+# Страница входа
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -92,12 +96,12 @@ def login():
                                form=form)
     return render_template('form_enter.html', title='Авторизация', form=form)
 
-
+# Главная страница, с учетом имени пользователя
 @app.route('/index/<username>')
 def index_entered(username):
     return render_template('main.html', enter=username)
 
-
+# Страница генерации второй степени опьянения
 @app.route('/gen/<username>', methods=['POST', 'GET'])
 def generate_entered(username):
     gen_text = ""
@@ -108,7 +112,7 @@ def generate_entered(username):
                                        'словами.',
                            message='!Пиши строчными буквами и без знаков препинания!', text=text_creator(gen_text))
 
-
+# Страница генерации первой степени опьянения
 @app.route('/gen_prof/<username>', methods=['POST', 'GET'])
 def generate_prof_entered(username):
     gen_text = ""
