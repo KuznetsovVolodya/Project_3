@@ -40,7 +40,7 @@
     <form class="create_form" method="post">
         <div class="form-group">
             <h3><label for="about">{{ description }}</label></h3>
-            <label for="about">{{ message }}</label>
+            <label for="about" id="warning">{{ message }}</label>
             <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Сгенерировать</button>

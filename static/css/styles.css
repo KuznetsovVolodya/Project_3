@@ -20,3 +20,6 @@ font-size: 40px;
 label#comm2{
 font-size: 40px;
 }
+label#warning{
+color: red;
+}
