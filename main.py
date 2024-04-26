@@ -7,6 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from data.users import User
+from data.generations import Generation
 from data import db_session
 
 app = Flask(__name__)
@@ -127,6 +128,12 @@ def generate_entered(username):
         gen_text = request.form['about']
     return render_template('gen.html', enter=username, text=text_creator(gen_text))
 
+@app.route("/scroll")
+def scroll():
+    db_sess = db_session.create_session()
+    all_generation = db_sess.query(Generation)
+    return render_template("scroll.html", all_generation=all_generation)
+
 
 if __name__ == '__main__':
     db_session.global_init("db/new_generation.db")
@@ -139,6 +146,14 @@ if __name__ == '__main__':
     user2.name = "Андрей"
     user.set_password("Privet")
     db_sess.add(user2)
+    db_sess.commit()
+
+    g = Generation()
+
+    g.generation_text = "волк сеял ягоды"
+    g.comment = 'хаха'
+    g.author = 'Андрей'
+    db_sess.add(g)
     db_sess.commit()
 
     app.run(port=8080, host='127.0.0.1')
