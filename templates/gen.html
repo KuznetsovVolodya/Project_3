@@ -41,7 +41,11 @@
         <div class="form-group">
             <h3><label for="about">{{ description }}</label></h3>
             <label for="about" id="warning">{{ message }}</label>
-            <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
+            {% if name == "Вторая степень опьянения": %}
+                <textarea class="form-control" id="about" rows="25" name="about">{{ text }}</textarea>
+            {% else %}
+                <textarea class="form-control" id="about" rows="25" name="about" readonly>{{ text }}</textarea>
+            {% endif %}
         </div>
         <button type="submit" class="btn btn-primary">Сгенерировать</button>
         <span class="navbar-text">       </span>

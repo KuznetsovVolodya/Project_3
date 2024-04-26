@@ -6,7 +6,7 @@ api_server = address
 
 def gen_prof():
     params = {
-        'type': 'text',
+        'type': 'title',
         'number': 1,
         'format': 'json',
     }

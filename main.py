@@ -27,7 +27,7 @@ def text_creator(o_t):
 
 
 def text_creator_prof(o_t):
-    return o_t + " " + gen_prof()
+    return o_t + gen_prof() + ". "
 
 
 class RegisterForm(FlaskForm):
