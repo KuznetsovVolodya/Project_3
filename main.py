@@ -1,6 +1,5 @@
-import sqlite3
 from flask import Flask, render_template, request, redirect
-from random import choice, shuffle
+from random import choice
 
 from text_creator import a
 from flask_wtf import FlaskForm
@@ -27,9 +26,11 @@ def text_creator(o_t):
                 text += ' ' + choice(list(a.keys()))
     return text
 
+
 # Генерация текста первой степени опьянения (описана в файле 'fish_api_connection.py')
 def text_creator_prof(o_t):
     return o_t + gen_prof() + ". "
+
 
 # Форма регистрации
 class RegisterForm(FlaskForm):
@@ -38,12 +39,14 @@ class RegisterForm(FlaskForm):
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Зарегистрироваться')
 
+
 # Форма входа
 class LoginForm(FlaskForm):
     username = StringField('Ник', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
+
 
 # Добавление новой генерации в БД
 @app.route('/')
@@ -61,6 +64,7 @@ def image_mars2(username, post):
         return redirect(f'/scrooll_page/{username}/False')
     all_generation = db_sess.query(Generation)
     return render_template("scroll.html", all_generation=all_generation, enter=username, post=post)
+
 
 # Страница регистрации
 @app.route('/register', methods=['GET', 'POST'])
@@ -82,6 +86,7 @@ def reqister():
         return redirect(f'/index/{form.username.data}')
     return render_template('form_enter.html', title='Регистрация', form=form)
 
+
 # Страница входа
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -96,10 +101,12 @@ def login():
                                form=form)
     return render_template('form_enter.html', title='Авторизация', form=form)
 
+
 # Главная страница, с учетом имени пользователя
 @app.route('/index/<username>')
 def index_entered(username):
     return render_template('main.html', enter=username)
+
 
 # Страница генерации второй степени опьянения
 @app.route('/gen/<username>', methods=['POST', 'GET'])
@@ -111,6 +118,7 @@ def generate_entered(username):
                            description='Полный бред, где хоть какую-то связь можно проследить только между соседними '
                                        'словами.',
                            message='!Пиши строчными буквами и без знаков препинания!', text=text_creator(gen_text))
+
 
 # Страница генерации первой степени опьянения
 @app.route('/gen_prof/<username>', methods=['POST', 'GET'])
@@ -124,7 +132,6 @@ def generate_prof_entered(username):
                                        'поймёте его абсурдность.',
                            message='!Ничего вводить не нужно, генерация производится сама!',
                            text=gen_text)
-
 
 
 if __name__ == '__main__':
