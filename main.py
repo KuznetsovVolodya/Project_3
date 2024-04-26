@@ -96,7 +96,7 @@ def login():
         user = db_sess.query(User).filter(User.name == form.username.data).first()
         if user and user.check_password(form.password.data):
             return redirect(f'/index/{form.username.data}')
-        return render_template('form_enter.html',
+        return render_template('form_enter.html', title='Авторизация',
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('form_enter.html', title='Авторизация', form=form)
