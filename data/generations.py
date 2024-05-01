@@ -6,7 +6,7 @@ from data.db_session import SqlAlchemyBase
 
 class Generation(SqlAlchemyBase):
     __tablename__ = 'generations'
-
+    # нумерация генераций, их содержимое, комментарий пользователя и имя самого пользователя
     num = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     generation_text = sqlalchemy.Column(sqlalchemy.String, nullable=False)

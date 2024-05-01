@@ -13,5 +13,5 @@ def gen_prof():
         'format': 'json',
     }
     response = requests.get(api_server, params=params).json()
-    b = response['text']
-    return b
+    answer_text = response['text']
+    return answer_text

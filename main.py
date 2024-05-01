@@ -16,8 +16,8 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 # Генерация текста второй степени опьянения (описана в файле 'text_creator.py')
 # Рандомно выбирается продолжение начатого текста
-def text_creator(o_t):
-    text = o_t
+def text_creator(original_text):
+    text = original_text
     if len(text) >= 1:
         for i in range(10):
             if text.split()[-1] in a:
@@ -28,8 +28,8 @@ def text_creator(o_t):
 
 
 # Генерация текста первой степени опьянения (описана в файле 'fish_api_connection.py')
-def text_creator_prof(o_t):
-    return o_t + gen_prof() + ". "
+def text_creator_prof(original_text):
+    return original_text + gen_prof() + ". "
 
 
 # Форма регистрации
@@ -51,7 +51,7 @@ class LoginForm(FlaskForm):
 # Добавление новой генерации в БД
 @app.route('/')
 @app.route('/scrooll_page/<username>/<post>', methods=['GET', 'POST'])
-def image_mars2(username, post):
+def scroll_foo(username, post):
     db_sess = db_session.create_session()
     if request.method == 'POST':
         # Класс Generation() описан в generations.py

@@ -7,6 +7,7 @@ from data.db_session import SqlAlchemyBase
 class User(SqlAlchemyBase):
     __tablename__ = 'users'
 
+    # id, имя пользователя, его хешированный пароль
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
