@@ -50,6 +50,10 @@ class LoginForm(FlaskForm):
 
 # Добавление новой генерации в БД
 @app.route('/')
+def to_main():
+    return redirect(f"/index/False")
+
+
 @app.route('/scrooll_page/<username>/<post>', methods=['GET', 'POST'])
 def scroll_foo(username, post):
     db_sess = db_session.create_session()
